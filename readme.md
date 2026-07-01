@@ -21,10 +21,23 @@ This project contains a Django application with an employee-related endpoint and
    - `env\Scripts\activate`
 2. Install dependencies:
    - `pip install -r requirements.txt`
+   - `pip install django`
+   - `django-admin startproject employee_app .`
+   - `python manage.py startapp employee_api`
 3. Apply database migrations:
-   - `python manage.py migrate`
+    - `python manage.py makemigrations`
+    - `python manage.py migrate`
 4. Start the development server:
    - `python manage.py runserver`
+   - `python manage.py createsuperuser`
+   - `python manage.py shell`
+   - `from employee_api.models import Employee`
+   - `Employee.objects.all()` => getting all the employee record
+   - `Employee.save()` => saving employee records
+   - `Employee.objects.all().value()` => checks if employee table has values
+   from django.contrib import admin
+   from .models import Employee
+   admin.site.register(Employee)
 
 ## Usage
 Open your browser and visit:
