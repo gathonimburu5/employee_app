@@ -4,10 +4,14 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="card">
+        <div class="card shadow-none">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title fw-bold small">Employee List</h4>
+                <a href="{% url 'employee_create' %}" class="btn btn-outline-primary btn-sm">Add Employee</a>
+            </div>
+
             <div class="card-body">
-                <h4 class="card-title">Employee List</h4>
-                <p class="card-title-desc">Here you can view all employees.</p>
+                <p>Here you can view all employees.</p>
             </div>
         </div>
     </div>

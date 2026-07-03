@@ -185,6 +185,53 @@
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid">
+
+                        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1005">
+                            {% for message in messages %}
+                            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-body d-flex align-items-center rounded
+                                    {% if message.tags == 'success' %}
+                                        bg-success bg-opacity-10 border border-success
+                                    {% elif message.tags == 'error' %}
+                                        bg-danger bg-opacity-10 border border-danger
+                                    {% elif message.tags == 'warning' %}
+                                        bg-warning bg-opacity-10 border border-warning
+                                    {% else %}
+                                        bg-info bg-opacity-10 border border-info
+                                    {% endif %}
+                                ">
+                                    <div class="d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 35px; height: 35px;">
+                                        {% if message.tags == 'success' %}
+                                            <i class="fas fa-check fs-4"></i>
+                                        {% elif message.tags == 'error' %}
+                                            <i class="fas fa-exclamation fs-4"></i>
+                                        {% elif message.tags == 'warning' %}
+                                            <i class="fas fa-exclamation fs-4"></i>
+                                        {% else %}
+                                            <i class="fas fa-exclamation fs-4"></i>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold
+                                        {% if message.tags == 'success' %}
+                                            text-success
+                                        {% elif message.tags == 'error' %}
+                                            text-danger
+                                        {% elif message.tags == 'warning' %}
+                                            text-warning
+                                        {% else %}
+                                            text-info
+                                        {% endif %}"> {{ message.tags|title }} </div>
+                                        {{ message }}
+                                    </div>
+
+                                    <button type="button" class="btn-close ms-3" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
                         {% block content %} {% endblock %}
                     </div>
                     <!-- container-fluid -->
@@ -216,8 +263,20 @@
         <script src="{% static 'libs/apexcharts/apexcharts.min.js' %}"></script>
         <!-- dashboard init -->
         <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+        <!-- Bootstrap Toasts Js -->
+        <script src="{% static 'js/pages/bootstrap-toastr.init.js' %}"></script>
         <!-- App js -->
         <script src="{% static 'js/app.js' %}"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                document.querySelectorAll(".toast").forEach(function(toastEl){
+                    const toast = new bootstrap.Toast(toastEl, {
+                        autohide: true,
+                        delay: 5000
+                    });
+                    toast.show();
+                });
+            });
+        </script>
     </body>
-
 </html>

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Create Employee{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow-none">
+            <div class="card-header">
+                <h4 class="card-title fw-bold small">Create Employee</h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" action="{% url 'employee_create' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="employee_id">Employee Id</label>
+                                <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="please enter employee id" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="phone_number">Phone Number</label>
+                                <input type="text" class="form-control" id="phone_number" placeholder="please enter phone number" name="phone_number" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group"><label for=""></label><input type="text" class="form-control"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <input type="text" class="form-control" id="position" name="position" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Employee</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
