@@ -4,46 +4,174 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="card shadow-none">
-            <div class="card-header">
+        <div class="card shadow-sm">
+            <div class="card-header bg-clear">
                 <h4 class="card-title fw-bold small">Create Employee</h4>
             </div>
 
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data" action="{% url 'employee_create' %}">
                     {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-4">
+                    <div class="row g-1 mb-2">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="employee_id">Employee Id</label>
+                                <label for="employee_id">Employee Id <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="please enter employee id" required>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="phone_number">Phone Number</label>
+                                <label for="phone_number">Phone Number <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="phone_number" placeholder="please enter phone number" name="phone_number" required>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group"><label for=""></label><input type="text" class="form-control"></div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="department">Department <span class="text-danger">*</span></label>
+                                <select name="department" id="department" class="form-select form-control" required>
+                                    <option value="">select department</option>
+                                    {% for department in departments %}
+                                        <option value="{{ department.id }}">{{ department.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="position" class="form-label"> Position <span class="text-danger">*</span> </label>
+                                <select name="position" id="position" class="form-select form-control">
+                                    <option value="">select position</option>
+                                    {% for position in positions %}
+                                        <option value="{{ position.id }}">{{ position.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+
+                    <div class="row g-1 mb-2">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="postal_address" class="form-label">Postal Address <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="postal_address" name="postal_address" placeholder="please eenter postal address" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="physical_address" class="form-label"> Physical Address <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="physical_address" name="physical_address" placeholder="please enter physical address" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date_of_birth" class="form-label"> Date Of Birth <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="please enter date of birth" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date_of_hire" class="form-label"> Date Of Hire <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="date_of_hire" name="date_of_hire" placeholder="please enter date of hire" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+
+                    <div class="row g-1 mb-2">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="salary" class="form-label">Salary <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="salary" name="salary" placeholder="please enter salary" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="kra_pin" class="form-label"> KRA Pin <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="kra_pin" name="kra_pin" placeholder="please enter KRA pin" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="nssf_number" class="form-label">NSSF Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nssf_number" name="nssf_number" placeholder="please enter NSSF number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="shif_number" class="form-label">SHIF Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="shif_number" name="shif_number" placeholder="please enter SHIF number" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="position">Position</label>
-                        <input type="text" class="form-control" id="position" name="position" required>
+
+                    <div class="row g-1 mb-2">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="bank_name" class="form-label">Bank Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="please enter bank name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="bank_branch" class="form-label">Bank Branch <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="bank_branch" name="bank_branch" placeholder="please enter bank branch" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="bank_account_number" class="form-label">Account Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="bank_account_number" name="bank_account_number" placeholder="please enter account number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="bank_swift_code" class="form-label">Swift Code <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="bank_swift_code" name="bank_swift_code" placeholder="please enter swift code" required>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Create Employee</button>
+
+                    <div class="row g-1 mb-2">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="emergency_contact_name" class="form-label">Emergency Contact Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name" placeholder="please enter emergency contact name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="emergency_contact_relationship" class="form-label">Emergency Contact Relationship <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="emergency_contact_relationship" name="emergency_contact_relationship" placeholder="please enter emergency contact relationship" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="emergency_contact_phone" class="form-label">Emergency Contact Phone <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="emergency_contact_phone" name="emergency_contact_phone" placeholder="please enter emergency contact phone" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
+                                <select name="gender" id="gender" class="form-select form-control">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-1">
+                        <div class="text-end">
+                            <div class="form-group">
+                                <a href="{% url 'employee_list' %}" class="btn btn-outline-danger"> <i class="fas fa-times"></i> Cancel</a>
+                                <button type="submit" class="btn btn-outline-primary"> <i class="fas fa-database"></i> Create</button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

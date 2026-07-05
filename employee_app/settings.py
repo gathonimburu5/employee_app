@@ -43,8 +43,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "employee_api.apps.EmployeeApiConfig",
-    "dashboard.apps.DashboardConfig",
-    "attendance.apps.AttendanceConfig",
+    "dashboard",
+    "attendance",
+    "accounts",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.github",
 ]
 
 MIDDLEWARE = [
@@ -53,9 +59,30 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# django-allauth configuration
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_SIGNUP_FIELDS = ['*username', '*email', '*password1', '*password2']
+
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Change to "mandatory" in production
+LOGIN_REDIRECT_URL = "dashboard"  # Redirect to dashboard after login
+LOGOUT_REDIRECT_URL = "logout_view"  # Redirect to home page after logout
+ACCOUNT_LOGOUT_REDIRECT_URL = "logout_view"  # Redirect to home page after logout
+
+ACCOUNT_SIGNUP_AUTO_LOGIN = True  # Automatically log in the user after signup
+ACCOUNT_AUTHENTICATION_METHOD_CASE_INSENSITIVE = True  # Make authentication case-insensitive
+ACCOUNT_PRESERVE_USERNAME_CASING = False  # Preserve the original casing of the username
+ACCOUNT_PASSWORD_MIN_LENGTH = 8  # Set minimum password length
+
 
 ROOT_URLCONF = "employee_app.urls"
 
