@@ -14,8 +14,12 @@ def employee_create(request):
 
     if request.method == "POST":
         # Extract form data
-        user = request.user
+        # user = request.user
         employee_id = request.POST.get("employee_id")
+        first_name = request.POST.get("first_name")
+        middle_name = request.POST.get("middle_name")
+        last_name = request.POST.get("last_name")
+        email_address = request.POST.get("email_address")
         phone_number = request.POST.get("phone_number")
         postal_address = request.POST.get("postal_address")
         physical_address = request.POST.get("physical_address")
@@ -24,50 +28,64 @@ def employee_create(request):
         date_of_birth = request.POST.get("date_of_birth")
         date_of_hire = request.POST.get("date_of_hire")
         salary = request.POST.get("salary")
-        kra_pin = request.POST.get("kra_pin")
-        nssf_number = request.POST.get("nssf_number")
-        bank_account_number = request.POST.get("bank_account_number")
-        bank_name = request.POST.get("bank_name")
-        bank_branch = request.POST.get("bank_branch")
-        bank_swift_code = request.POST.get("bank_swift_code")
-        status = request.POST.get("status")
+        kra_pin = request.POST.get("kra_pin") or None
+        nssf_number = request.POST.get("nssf_number") or None
+        shif_number = request.POST.get("shif_number") or None
+        bank_account_number = request.POST.get("bank_account_number") or None
+        bank_name = request.POST.get("bank_name") or None
+        bank_branch = request.POST.get("bank_branch") or None
+        bank_swift_code = request.POST.get("bank_swift_code") or None
+        status = request.POST.get("status") or "active"
         gender = request.POST.get("gender")
-        employee_photo = request.FILES.get("employee_photo")
-        emergency_contact_name = request.POST.get("emergency_contact_name")
-        emergency_contact_relationship = request.POST.get("emergency_contact_relationship")
-        emergency_contact_phone = request.POST.get("emergency_contact_phone")
+        employee_photo = request.FILES.get("employee_photo") or None
+        emergency_contact_name = request.POST.get("emergency_contact_name") or None
+        emergency_contact_relationship = request.POST.get("emergency_contact_relationship") or None
+        emergency_contact_phone = request.POST.get("emergency_contact_phone") or None
         created_by = request.user if request.user.is_authenticated else None
 
         # Create the employee
         try:
-            department = EmployeeService.getAllDepartments().get(id=department_id)
-            position = EmployeeService.getAllPositions().get(id=position_id)
+            department = departments.get(id=department_id)
+            if not department:
+                messages.error(request, "department is required!!")
+                return redirect("employee_create")
 
-            EmployeeService.createEmployee(
-                user=user,
-                employee_id=employee_id,
-                phone_number=phone_number,
-                postal_address=postal_address,
-                physical_address=physical_address,
-                department=department,
-                position=position,
-                date_of_birth=date_of_birth,
-                date_of_hire=date_of_hire,
-                salary=salary,
-                kra_pin=kra_pin,
-                nssf_number=nssf_number,
-                bank_account_number=bank_account_number,
-                bank_name=bank_name,
-                bank_branch=bank_branch,
-                bank_swift_code=bank_swift_code,
-                status=status,
-                gender=gender,
-                employee_photo=employee_photo,
-                emergency_contact_name=emergency_contact_name,
-                emergency_contact_relationship=emergency_contact_relationship,
-                emergency_contact_phone=emergency_contact_phone,
-                created_by=created_by
-            )
+            position = positions.get(id=position_id)
+            if not position:
+                messages.error(request, "position is required!!")
+                return redirect("employee_create")
+
+            employee_data = {
+                "user": None,
+                "employee_id": employee_id,
+                "first_name": first_name,
+                "middle_name": middle_name,
+                "last_name": last_name,
+                "email_address": email_address,
+                "phone_number": phone_number,
+                "postal_address": postal_address,
+                "physical_address": physical_address,
+                "department": department,
+                "position": position,
+                "date_of_birth": date_of_birth,
+                "date_of_hire": date_of_hire,
+                "salary": salary,
+                "kra_pin": kra_pin,
+                "nssf_number": nssf_number,
+                "shif_number": shif_number,
+                "bank_account_number": bank_account_number,
+                "bank_name": bank_name,
+                "bank_branch": bank_branch,
+                "bank_swift_code": bank_swift_code,
+                "status": status,
+                "gender": gender,
+                "employee_photo": employee_photo,
+                "emergency_contact_name": emergency_contact_name,
+                "emergency_contact_relationship": emergency_contact_relationship,
+                "emergency_contact_phone": emergency_contact_phone
+            }
+
+            EmployeeService.createEmployee(employee_data, created_by=created_by)
             messages.success(request, "Employee created successfully.")
             return redirect("employee_list")
 
