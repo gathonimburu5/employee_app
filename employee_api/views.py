@@ -7,9 +7,37 @@ def employee_list(request):
     employees = EmployeeService.getAllEmployees()
     return render(request, "employee_api/employee_list.html", {"employees": employees})
 
+def department_list(request):
+    if request.method == "POST":
+        name = request.POST.get("department_name")
+        location = request.POST.get("location")
+        desciption = request.POST.get("description")
+        created_by = request.user if request.user.is_authenticated else None
+
+        EmployeeService.createDepartment(name, location, desciption, created_by)
+        messages.success(request, "department created successfully.")
+        return redirect("department_list")
+
+    departments = EmployeeService.getAllDepartments()
+    return render(request, "employee_api/department_list.html", { "departments":departments })
+
+def position_list(request):
+    if request.method == "POST":
+        name = request.POST.get("position_name")
+        description = request.POST.get("description")
+        created_by = request.user if request.user.is_authenticated else None
+
+        EmployeeService.createPosition(name, description, created_by)
+        messages.success(request, "position created successfully.")
+        return redirect("position_list")
+
+    positions = EmployeeService.getAllPositions()
+    return render(request, "employee_api/position_list.html", { "positions":positions })
+
 
 def employee_create(request):
     departments = EmployeeService.getAllDepartments()
+    print(departments)
     positions = EmployeeService.getAllPositions()
 
     if request.method == "POST":

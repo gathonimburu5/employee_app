@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block title %}Position List{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Position</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0"> <li class="breadcrumb-item"><a href="javascript: void(0);">Position</a></li> <li class="breadcrumb-item active">Position-List</li> </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow-none">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title fw-bold small">Position List</h4>
+                <button data-bs-toggle="modal" data-bs-target="#positionModal" class="btn btn-md btn-outline-primary rounded"> <i class="fas fa-plus-circle"></i> Add Position </button>
+            </div>
+
+            <div class="card-body">
+                <table id="positionTable" class="table table-hover table-bordered" style="width: 100%;">
+                    <thead class="table-secondary" style="position: sticky; top: 0; z-index: 100;">
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col" class="text-center">Created On</th>
+                        <th scope="col" width="12%">Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for pos in positions %}
+                        <tr>
+                            <td class="text-center">{{forloop.counter}}</td>
+                            <td>{{pos.position_name|default:''}}</td>
+                            <td>{{pos.description|default:'' }}</td>
+                            <td class="text-center">{{pos.created_at|date:"d-m-Y"|default:''}}</td>
+                            <td>
+                                <select name="" id="" class="form-select form-control-sm" style="height:25px; padding-top:2px; padding-bottom:2px;">>
+                                    <option value="" selected>select actions</option>
+                                    <option value="1">update position</option>
+                                </select>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center"> No position found!! </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- create position modal -->
+<div class="modal fade" id="positionModal" tabindex="-1" aria-labelledby="positionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header"> <h5 class="modal-title" id="positionModalLabel"> Create Position </h5> </div>
+        <form id="positionForm" method="post" action="{% url 'position_list' %}" autocomplete="off" class="needs-validation positionForm" novalidate>
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="position_name" class="form-label">Position Name: <span class="text-danger">*</span></label>
+                            <input type="text" id="position_name" class="form-control" placeholder="please enter position name" oninput="this.value = this.value.toUpperCase()" name="position_name" required>
+                            <div class="invalid-feedback">please enter position name.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="description" class="form-label">Position Description: </label>
+                            <textarea type="text" id="description" rows="5" class="form-control" placeholder="please enter description" oninput="this.value = this.value.toUpperCase()" name="description"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-md btn-outline-danger" data-bs-dismiss="modal"> Cancel </button>
+                <button type="submit" class="btn btn-md btn-outline-success"> <i class="fas fa-database"></i> Save </button>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $("#positionForm").on("submit", function(e){
+            e.preventDefault();
+            const form = this;
+            if(!form.checkValidity()){
+                e.stopPropagation();
+                form.classList.add("was-validated");
+                return;
+            }
+            swal.fire({
+                title: "Are you sure?",
+                text: "You want to create positions?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#00A300",
+                cancelButtonColor: "#E02914",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+            }).then((result) => {
+                if(result.isConfirmed){
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+
+
+{% endblock %}
