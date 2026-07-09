@@ -5,7 +5,7 @@ from django.utils import timezone
 class EmployeeService:
     @staticmethod
     def getAllEmployees():
-        return Employee.objects.all()
+        return Employee.objects.all().order_by("-id")
 
     @staticmethod
     def getEmployeeById(employee_id):

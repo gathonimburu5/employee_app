@@ -65,5 +65,13 @@ class Employee(models.Model):
     class Meta:
         ordering = ['employee_id']
 
+    @property
+    def full_name(self):
+        return " ".join(filter(None, [self.first_name, self.middle_name, self.last_name]))
+
+    @property
+    def address(self):
+        return " ".join(filter(None, [self.postal_address, self.physical_address]))
+
     def __str__(self):
         return f"{self.employee_id} {self.first_name} {self.last_name}"
