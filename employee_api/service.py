@@ -16,11 +16,11 @@ class EmployeeService:
 
     @staticmethod
     def getAllDepartments():
-        return Department.objects.all()
+        return Department.objects.all().order_by("-id")
 
     @staticmethod
     def getAllPositions():
-        return Position.objects.all()
+        return Position.objects.all().order_by("-id")
 
     @staticmethod
     @transaction.atomic

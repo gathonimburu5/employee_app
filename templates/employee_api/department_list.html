@@ -109,8 +109,12 @@
 <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script>
     $(document).ready(function(){
+        let isSubmitting = false;
         $("#departmentForm").on("submit", function(e){
             e.preventDefault();
+            if(isSubmitting){
+                return;
+            }
             const form = this;
             if(!form.checkValidity()){
                 e.stopPropagation();
@@ -128,6 +132,10 @@
                 cancelButtonText: "No",
             }).then((result) => {
                 if(result.isConfirmed){
+                    isSubmitting = true;
+                    //disable submit button
+                    const submitBtn = $(form).find(":submit");
+                    submitBtn.prop("disabled", true).text('<i class="fas fa-database"></i> Saving...');
                     form.submit();
                 }
             });
